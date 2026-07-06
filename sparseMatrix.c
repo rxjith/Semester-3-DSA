@@ -56,5 +56,6 @@ int main(void) {
         } printf("\n");
     }
 
+    // Transpose of a sparse matrix coming soon :D
     return 0;
 }
