@@ -78,10 +78,9 @@ int main(void) {
             default:
                 printf("Invalid entry, please try again!\n");
         }
-
-        free(stack);
-        return 0;
     }
+    free(stack);
+    return 0;
 }
 
 bool isFull(int* top, int size) {
