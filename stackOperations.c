@@ -6,7 +6,7 @@ int main(void) {
     
     printf("Stack Operations Demonstration Program");
     
-    int choice, *stack = NULL, size = 0;
+    int choice, *stack = NULL, *top = -1, size = 0;
 
     while (true) {
         printf("---------------------------------------------\n");
@@ -41,3 +41,35 @@ int main(void) {
     }
 }
 
+bool isFull(int* stack, int size, int* top) {
+
+    if (*top == size - 1) {
+        printf("Overflow.\n");
+        return true;
+    } return false;
+}
+
+bool isEmpty(int* stack, int size, int* top) {
+    
+    if (*top == -1) {
+        printf("Underflow.\n");
+        return true;
+    } return false;
+}
+
+void createStack(int* stack) {
+
+    int n;
+    printf("---------------------------------------------\n");
+    printf("Enter # of member-spaces you want to allocate: ");
+    scanf("%d", &n);
+    printf("---------------------------------------------\n");
+    stack = (int*) malloc(n * sizeof(int));
+
+    if (stack == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+
+    printf("Stack memory allocated successfully!\n");
+}
