@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+bool isFull(int* , int);
+bool isempty(int* );
+void createStack(int* );
+void push(int*, int* );
+int pop(int*, int* );
+
 int main(void) {
     
     printf("Stack Operations Demonstration Program");
@@ -28,7 +34,28 @@ int main(void) {
                 push(stack, size);
                 break;
             case 3:
-                pop(stack, size);
+                if (!isEmpty) {
+                    int poppedItem = pop(stack, size);
+                    int choice2;
+
+                    printf("1. Print item\n");
+                    printf("2. Delete item\n");
+                    printf("---------------------------------------------\n");
+                    printf("Enter your choice (1/2): ");
+                    scanf("%d", &choice2);
+                    printf("---------------------------------------------\n");
+
+                    switch (choice2) {
+                        case 1:
+                            printf("Item: %d", poppedItem);
+                            break;
+                        case 2:
+                            printf("Item has been deleted!\n");
+                            break;
+                        default:
+                            printf("Invalid entry, item has been deleted!\n");
+                    }    
+                }
                 break;
             case 4:
                 exit(0);
@@ -37,27 +64,31 @@ int main(void) {
                 printf("Invalid entry, please try again!\n");
         }
 
+        free(stack);
         return 0;
     }
 }
 
-bool isFull(int* stack, int size, int* top) {
+bool isFull(int* top, int size) {
 
     if (*top == size - 1) {
-        printf("Overflow.\n");
         return true;
     } return false;
 }
 
-bool isEmpty(int* stack, int size, int* top) {
+bool isEmpty(int* top) {
     
     if (*top == -1) {
-        printf("Underflow.\n");
         return true;
     } return false;
 }
 
 void createStack(int* stack) {
+
+    if (stack != NULL) {
+        printf("Stack has already been created!\n");
+        return;
+    }
 
     int n;
     printf("---------------------------------------------\n");
@@ -73,3 +104,34 @@ void createStack(int* stack) {
 
     printf("Stack memory allocated successfully!\n");
 }
+
+void push(int* stack, int* top) {
+
+    if (isFull) {
+        printf("Overflow\n");
+        return;
+    }
+
+    int item;
+
+    printf("Enter element to push into the stack: ");
+    scanf("%d", &item);
+    stack[++(*top)] = item;
+    printf("---------------------------------------------\n");
+    printf("%d pushed successfully!\n", item);
+    return;
+}
+
+int pop(int* stack, int* top) {
+    if (isEmpty) {
+        printf("Underflow\n");
+        return;
+    }
+
+    int item;
+    item = stack[*top];
+    (*top)--;
+    printf("Item popped successfully!\n");
+    return item;
+}
+
