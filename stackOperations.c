@@ -6,34 +6,31 @@ int main(void) {
     
     printf("Stack Operations Demonstration Program");
     
-    int choice, *stack = NULL;
+    int choice, *stack = NULL, size = 0;
 
     while (true) {
         printf("---------------------------------------------\n");
         printf("1. Create a stack\n");
-        printf("2. Grow the stack\n");
-        printf("3. Push\n");
-        printf("4. Pop\n");
-        printf("5. Exit\n");
+        printf("2. Push\n");
+        printf("3. Pop\n");
+        printf("4. Exit\n");
         printf("---------------------------------------------\n");
-        printf("Enter choice (1/2/3/4/5): ");
+        printf("Enter choice (1/2/3/4): ");
         scanf("%d", &choice);
         printf("---------------------------------------------\n");
 
         switch (choice) {
             case 1:
                 createStack(stack);
+                size = sizeof(stack)/sizeof(int);
                 break;
             case 2:
-                growStack();
+                push(stack, size);
                 break;
             case 3:
-                push();
+                pop(stack, size);
                 break;
             case 4:
-                pop();
-                break;
-            case 5:
                 exit(0);
                 break;
             default:
