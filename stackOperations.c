@@ -132,4 +132,3 @@ int pop(int* stack, int* top) {
     printf("Item popped successfully!\n");
     return item;
 }
-
