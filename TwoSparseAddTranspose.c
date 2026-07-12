@@ -22,43 +22,52 @@ int main(void) {
     printf("Enter number of columns of [B]: "); scanf("%d", &colB);
     printf("-----------------------------------------------------------\n");
 
-    // Check if matrix addition is valid
+    // Check if matrix addition requirements are met
     if (rowA != rowB || colA != colB) {
         printf("Error: Matrix addition requires [A] and [B] to have identical dimensions!\n");
         return 1;
     }
 
+    // Allocate space for two matrices
     int (*matrixA)[colA] = malloc(rowA * sizeof(*matrixA));
     int (*matrixB)[colB] = malloc(rowB * sizeof(*matrixB));
 
+    // Check allocation
     if (matrixA == NULL || matrixB == NULL) {
         printf("Memory allocation failed for dense input matrices!\n");
         return 1;
     }
 
+    // Read matrices
     printf("\nEnter elements for Matrix [A]:\n");
     readMatrix(rowA, colA, matrixA);
+    printf("-----------------------------------------------------------\n");
     printf("\nEnter elements for Matrix [B]:\n");
     readMatrix(rowB, colB, matrixB);
+    printf("-----------------------------------------------------------\n");
 
+    // Count # of non-zero elements
     int nzA = nonZeroCounter(rowA, colA, matrixA);
     int nzB = nonZeroCounter(rowB, colB, matrixB);
 
-    // Allocate memory for 3-tuple triplet representations (+1 for header row)
+    // Allocate memory for 3-tuple representations (+1 for header row)
     int (*effA)[3] = malloc((nzA + 1) * sizeof(*effA));
     int (*effB)[3] = malloc((nzB + 1) * sizeof(*effB));
     
     // Sum triplet matrix can have at most (nzA + nzB) non-zero terms
     int (*effSum)[3] = malloc((nzA + nzB + 1) * sizeof(*effSum));
 
+    // Check allocations
     if (effA == NULL || effB == NULL || effSum == NULL) {
         printf("Memory allocation failed for 3-tuple matrices!\n");
         return 1;
     }
 
+    // Effective-ize the sparse matrices
     makeEffective(rowA, colA, nzA, matrixA, effA);
     makeEffective(rowB, colB, nzB, matrixB, effB);
 
+    // Display the effective sparse matrices
     printf("\n-----------------------------------------------------------\n");
     printf("3-Tuple Representation of Matrix [A]:\n");
     displayMatrix(nzA + 1, 3, effA);
@@ -66,30 +75,33 @@ int main(void) {
     printf("\n3-Tuple Representation of Matrix [B]:\n");
     displayMatrix(nzB + 1, 3, effB);
 
-    // Perform Addition using 3-Tuple representations
+    // Perform addition using effective representations
     int nzSum = add_effMatrix(effA, effB, effSum);
 
+    // Display summed effective sparse matrix
     printf("\n-----------------------------------------------------------\n");
     printf("3-Tuple Representation of Sum ([A] + [B]):\n");
     displayMatrix(nzSum + 1, 3, effSum);
 
-    // Allocate transposed 3-tuple matrix
+    // Allocate memory for transposed effective sparse matrix
     int (*trans_effSum)[3] = malloc((nzSum + 1) * sizeof(*trans_effSum));
     
+    // Check allocation
     if (trans_effSum == NULL) {
         printf("Memory allocation failed for transposed 3-tuple sum matrix!\n");
         return 1;
     }
 
-    // Transpose the 3-Tuple Sum matrix
+    // Transpose the effective sparse sum matrix
     transpose_effMatrix(effSum, trans_effSum);
 
+    // Display the transposed effective sparse sum matrix
     printf("\n-----------------------------------------------------------\n");
     printf("3-Tuple Representation of Transposed Sum ([A] + [B])^T:\n");
     displayMatrix(nzSum + 1, 3, trans_effSum);
     printf("-----------------------------------------------------------\n");
 
-    // Clean up memory
+    // Releasing memory back to system
     free(matrixA); free(matrixB);
     free(effA); free(effB);
     free(effSum); free(trans_effSum);
@@ -97,7 +109,7 @@ int main(void) {
     return 0;
 }
 
-// Reads values into dense matrix
+// Reads values into regular matrix
 void readMatrix(int row, int col, int (*matrix)[col]) {
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < col; j++) {
@@ -107,7 +119,7 @@ void readMatrix(int row, int col, int (*matrix)[col]) {
     }
 }
 
-// Completed standard fallback transposition for dense elements
+// Transpose regular matrix
 void transpose_matrix(int row, int col, int (*matrix)[col], int (*trans_matrix)[row]) {
     for (int r = 0; r < row; r++) {
         for (int c = 0; c < col; c++) {
@@ -127,7 +139,7 @@ int nonZeroCounter(int row, int col, int (*matrix)[col]) {
     return count;
 }
 
-// Creates 3-Tuple representation (Row 0 contains [Total Rows, Total Cols, Total Non-Zero])
+// Creates effective representation of the sparse matrix (Row 0 contains [Total Rows, Total Cols, Total Non-Zero])
 void makeEffective(int row, int col, int nz, int (*matrix)[col], int (*effMatrix)[3]) {
     effMatrix[0][0] = row;
     effMatrix[0][1] = col;
@@ -146,7 +158,7 @@ void makeEffective(int row, int col, int nz, int (*matrix)[col], int (*effMatrix
     }
 }
 
-// Adds two 3-tuple sparse matrices and returns the number of non-zero entries in the sum
+// Adds two effective sparse matrices and returns the number of non-zero entries in the sum
 int add_effMatrix(int (*effA)[3], int (*effB)[3], int (*effSum)[3]) {
     int i = 1, j = 1, k = 1;
     int nzA = effA[0][2];
@@ -156,7 +168,7 @@ int add_effMatrix(int (*effA)[3], int (*effB)[3], int (*effSum)[3]) {
     effSum[0][1] = effA[0][1];
 
     while (i <= nzA && j <= nzB) {
-        // Compare row indices first
+        // Row A is smaller -> Process A
         if (effA[i][0] < effB[j][0]) {
             effSum[k][0] = effA[i][0];
             effSum[k][1] = effA[i][1];
@@ -164,6 +176,7 @@ int add_effMatrix(int (*effA)[3], int (*effB)[3], int (*effSum)[3]) {
             i++; 
             k++;
         } 
+        // Row B is smaller -> Process B
         else if (effA[i][0] > effB[j][0]) {
             effSum[k][0] = effB[j][0];
             effSum[k][1] = effB[j][1];
@@ -171,34 +184,33 @@ int add_effMatrix(int (*effA)[3], int (*effB)[3], int (*effSum)[3]) {
             j++; 
             k++;
         } 
+        // Rows are equal, Col A is smaller -> Process A
+        else if (effA[i][1] < effB[j][1]) {
+            effSum[k][0] = effA[i][0];
+            effSum[k][1] = effA[i][1];
+            effSum[k][2] = effA[i][2];
+            i++; 
+            k++;
+        } 
+        // Rows are equal, Col B is smaller -> Process B
+        else if (effA[i][1] > effB[j][1]) {
+            effSum[k][0] = effB[j][0];
+            effSum[k][1] = effB[j][1];
+            effSum[k][2] = effB[j][2];
+            j++; 
+            k++;
+        } 
+        // Both Rows and Cols match perfectly -> Add them
         else {
-            // Rows are equal, compare column Indices
-            if (effA[i][1] < effB[j][1]) {
+            int sumVal = effA[i][2] + effB[j][2];
+            if (sumVal != 0) { 
                 effSum[k][0] = effA[i][0];
                 effSum[k][1] = effA[i][1];
-                effSum[k][2] = effA[i][2];
-                i++; 
+                effSum[k][2] = sumVal;
                 k++;
-            } 
-            else if (effA[i][1] > effB[j][1]) {
-                effSum[k][0] = effB[j][0];
-                effSum[k][1] = effB[j][1];
-                effSum[k][2] = effB[j][2];
-                j++; 
-                k++;
-            } 
-            else {
-                // Indices match -> add non-zero values
-                int sumVal = effA[i][2] + effB[j][2];
-                if (sumVal != 0) { // Keep only non-zero sum entries
-                    effSum[k][0] = effA[i][0];
-                    effSum[k][1] = effA[i][1];
-                    effSum[k][2] = sumVal;
-                    k++;
-                }
-                i++; 
-                j++;
             }
+            i++; 
+            j++;
         }
     }
 
@@ -226,7 +238,7 @@ int add_effMatrix(int (*effA)[3], int (*effB)[3], int (*effSum)[3]) {
     return totalNonZeroSum;
 }
 
-// Transposes a 3-tuple representation in O(Cols * NonZero) time
+// Transposes effective representation
 void transpose_effMatrix(int (*effMatrix)[3], int (*trans_effMatrix)[3]) {
     int numRows = effMatrix[0][0];
     int numCols = effMatrix[0][1];
