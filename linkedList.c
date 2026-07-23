@@ -7,25 +7,24 @@ typedef struct Node {
 } Node;
 
 Node* createNode(int value);
+Node* createList();
 void printList(Node* head);
+int searchList(Node* head, int key);
 void freeLinkedList(Node* head);
 
 int main(void) {
-    Node* head = createNode(10);
-    Node* second = createNode(20);
-    Node* third = createNode(30);
 
-    head->next = second;
-    second->next = third;
-
+    Node* head = createList();
     printList(head);
 
     freeLinkedList(head);
     head = NULL; // Prevents accidental reuse
+
+    return 0;
 }
 
 Node* createNode(int value) {
-    Node* newNode = (Node*) malloc(sizeof(Node));
+    Node* newNode = malloc(sizeof(Node));
 
     if (newNode == NULL) {
         printf("Memory allocation failed!\n");
@@ -36,6 +35,40 @@ Node* createNode(int value) {
     newNode->next = NULL;
 
     return newNode;
+}
+
+Node* createList() {
+    int n;
+
+    printf("Enter # of elements you wanna enter into the Linked List: ");
+    scanf("%d", &n);
+
+    if (n <= 0) {
+        return NULL;
+    }
+
+    Node* head = NULL;
+    Node* tail = NULL;
+
+    for (int i = 0; i < n; i++) {
+        int value = 0;
+        printf("Enter element into node %d: ", i + 1);
+        scanf("%d", &value);
+
+        Node* newNode = createNode(value);
+
+        if (head == NULL) {
+            // first element becomes head and tail
+            head = newNode;
+            tail = newNode;
+        } else {
+            // node attaches to the end and tail gets updated
+            tail->next = newNode;
+            tail = tail->next;
+        }
+    }
+
+    return head;
 }
 
 void printList(Node* head) {
@@ -49,6 +82,19 @@ void printList(Node* head) {
     printf("NULL\n");
 }
 
+int searchList(Node* head, int key) {
+    Node* current = head;
+    int index = 0;
+
+    while (current != NULL) {
+        if (current->data == key) {
+            return index;
+        }
+        current = current->next;
+        index++;
+    }
+}
+
 void freeLinkedList(Node* head) {
     Node* current = head; // Visiting head
     Node* nextNode = NULL;
@@ -59,5 +105,5 @@ void freeLinkedList(Node* head) {
         current = nextNode; // move to next saved node
     }
 
-    printf("Linked List has been released to heap!\n");
+    printf("Linked List has been released from heap!\n");
 }
