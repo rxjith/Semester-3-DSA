@@ -6,6 +6,23 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
+Node* createNode(int value);
+void printList(Node* head);
+void freeLinkedList(Node* head);
+
+int main(void) {
+    Node* head = createNode(10);
+    Node* second = createNode(20);
+    Node* third = createNode(30);
+
+    head->next = second;
+    second->next = third;
+
+    printList(head);
+
+    freeLinkedList(head);
+}
+
 Node* createNode(int value) {
     Node* newNode = (Node*) malloc(sizeof(Node));
 
@@ -29,4 +46,17 @@ void printList(Node* head) {
     }
 
     printf("NULL\n");
+}
+
+void freeLinkedList(Node* head) {
+    Node* current = head; // Visiting head
+    Node* nextNode = NULL;
+
+    while (current != NULL) {
+        nextNode = current->next; // save next node's address before freeing current
+        free(current); // free current node
+        current = nextNode; // move to next saved node
+    }
+
+    printf("Linked List has been released to heap!\n");
 }
