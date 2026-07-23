@@ -21,6 +21,7 @@ int main(void) {
     printList(head);
 
     freeLinkedList(head);
+    head = NULL; // Prevents accidental reuse
 }
 
 Node* createNode(int value) {
