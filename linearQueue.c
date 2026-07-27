@@ -62,9 +62,6 @@ int* createQueue(int n) {
         printf("Memory allocation failed!\n");
         exit(1);
     }
-
-    f = -1; 
-    r = -1;
     return queue;
 }
 
