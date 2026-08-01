@@ -1,6 +1,9 @@
 /* A food delivery platform maintains the list of active orders. 
  * New orders are continuously added, and completed orders are removed. */
 
+// Rojith Jinenth Varghese
+// CSE-B 2025-2029
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
