@@ -1,3 +1,8 @@
+// Polynomial Addition Using Linked Lists
+
+// Rojith Jinenth Varghese
+// S3 CSE - B | 2025 - 2029
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
