@@ -85,6 +85,7 @@ void enqueue(int queue[], int SIZE, int *f, int *r)
     }
 
     queue[*r] = item;
+    printf("%d was enqueued!\n", item);
 }
 
 int dequeue(int queue[], int SIZE, int *f, int *r)
