@@ -30,51 +30,49 @@ int main(void) {
         int choice;
 
         printf("----------------------------------------------\n");
-	printf("1. Read 2 Polynomials\n2. Display 2 Polynomials\n3. Add 2 Polynomials\n4. Display Sum\n5. Exit\n");
-	printf("----------------------------------------------\n");
-	printf("Please enter your choice (1/2/3/4/5): ");
-	if (scanf("%d", &choice) != 1) break;
-	printf("----------------------------------------------\n");
-	
-	switch (choice) {
-		case 1:
-			x1 = freePoly(x1);
-                        x2 = freePoly(x2);
-                        x3 = freePoly(x3);
+        printf("1. Read 2 Polynomials\n2. Display 2 Polynomials\n3. Add 2 Polynomials\n4. Display Sum\n5. Exit\n");
+        printf("----------------------------------------------\n");
+        printf("Please enter your choice (1/2/3/4/5): ");
+        if (scanf("%d", &choice) != 1) break;
+        printf("----------------------------------------------\n");
+        
+        switch (choice) {
+            case 1:
+                x1 = freePoly(x1);
+                x2 = freePoly(x2);
+                x3 = freePoly(x3);
 
-                        x1 = readPoly(1);
-                        printf("----------------------------------------------\n");
-                        x2 = readPoly(2);
-			break;
+                x1 = readPoly(1);
+                printf("----------------------------------------------\n");
+                x2 = readPoly(2);
+                break;
 
-		case 2: 
-			displayPoly(x1, 1);	
-			displayPoly(x2, 2);
-			break;
+            case 2: 
+                displayPoly(x1, 1);	
+                displayPoly(x2, 2);
+                break;
 
-		case 3: 
-			x3 = freePoly(x3);
-                        x3 = addPoly(x1, x2);
-			printf("Polynomials added!\n");
-			break;
+            case 3: 
+                x3 = freePoly(x3);
+                x3 = addPoly(x1, x2);
+                printf("Polynomials added!\n");
+                break;
 
-		case 4:
-			displayPoly(x3, 3);
-			break;
+            case 4:
+                displayPoly(x3, 3);
+                break;
 
-		case 5: 
-			printf("Exiting program...\n");
-                        x1 = freePoly(x1);
-                        x2 = freePoly(x2);
-                        x3 = freePoly(x3);
-			return 0;
+            case 5: 
+                printf("Exiting program...\n");
+                x1 = freePoly(x1);
+                x2 = freePoly(x2);
+                x3 = freePoly(x3);
+                return 0;
 
-		default:
-			printf("Invalid choice! Please try again!\n");
-	  }
-    }
-	
-    return 0;
+            default:
+                printf("Invalid choice! Please try again!\n");
+        }
+    } return 0;
 }
 
 Poly* createPoly(int coef, int expo) {
