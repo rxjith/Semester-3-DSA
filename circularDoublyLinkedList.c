@@ -1,3 +1,7 @@
+// Circular Doubly Linked List Demo Program
+// Name: Rojith Jinenth
+// Class: CSE-B, 2025-2029
+
 #include <stdio.h>
 #include <stdlib.h>
 
