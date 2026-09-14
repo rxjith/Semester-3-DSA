@@ -1,5 +1,3 @@
-// Binary Search Tree Implementation:
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,23 +16,24 @@ Node* createNode(int val) {
     }
 
     newNode->data = val;
-    newNode->left = newNode->right = NULL;
+    newNode->left = NULL;
+    newNode->right = NULL;
     return newNode;
 }
 
 Node* insert(Node* root, int val) {
     if (root == NULL) return createNode(val);
-    
+
     if (val < root->data) root->left = insert(root->left, val);
     else if (val > root->data) root->right = insert(root->right, val);
-    
+
     return root;
 }
 
 int search(Node* root, int val) {
     if (root == NULL) return 0;
     if (root->data == val) return 1;
-    return (val < root->data) ? search(root->left, val) : search(root->right, val);
+    return (root->data > val) ? search(root->left, val) : search (root->right, val);
 }
 
 Node* findMin(Node* root) {
@@ -53,17 +52,11 @@ int height(Node* root) {
 }
 
 Node* deleteNode(Node* root, int val) {
-    
-    // Base Case:
-    if (root == NULL) return root;
+    if (root == NULL) return NULL;
 
-    // Searching for the node
     if (val < root->data) root->left = deleteNode(root->left, val);
     else if (val > root->data) root->right = deleteNode(root->right, val);
-
-    // Deletion
     else {
-        // 0 / 1 children
         if (root->left == NULL) {
             Node* temp = root->right;
             free(root);
@@ -74,22 +67,33 @@ Node* deleteNode(Node* root, int val) {
             return temp;
         }
 
-        // actual deletion (2 children)
         Node* temp = findMin(root->right);
         root->data = temp->data;
         root->right = deleteNode(root->right, temp->data);
     }
 
-    // re-links nodes with their parents (higher up the call stack)
     return root;
 }
 
 void inOrder(Node* root) {
     if (root == NULL) return;
-
     inOrder(root->left);
     printf("%d ", root->data);
     inOrder(root->right);
+}
+
+void preOrder(Node* root) {
+    if (root == NULL) return;
+    printf("%d ", root->data);
+    preOrder(root->left);
+    preOrder(root->right);
+}
+
+void postOrder(Node* root) {
+    if (root == NULL) return;
+    postOrder(root->left);
+    postOrder(root->right);
+    printf("%d ", root->data);
 }
 
 void freeTree(Node* root) {
@@ -101,32 +105,47 @@ void freeTree(Node* root) {
 }
 
 int main(void) {
-    Node* root = NULL;
+
     int choice, val;
 
+    Node* root = NULL;
+
+    printf("Binary Search Tree Demo:\n");
+
     do {
-        printf("----------------------------------------------\n");
-        printf("1. Insert\n2. Display (InOrder)\n3. Search\n4. Height\n5. Delete\n6. Exit\n");
-        printf("----------------------------------------------\n");
-        printf("Enter your choice (1-6): ");
+        printf("-----------------------------------------\n");
+        printf("1. Insert a node\n2. Display (in order)\n3. Display (pre-order)\n4. Display (post-order)\n5. Search for a node\n6. Height of BST\n7. Delete a node\n8. Exit\n");
+        printf("-----------------------------------------\n");
+        printf("Enter a choice (1-6): ");
         scanf("%d", &choice);
-        printf("----------------------------------------------\n");
+        printf("-----------------------------------------\n");
 
         switch (choice) {
             case 1:
-                printf("Enter value: ");
-                scanf("%d", &val);
+                printf("Enter a value to insert: "); scanf("%d", &val);
                 root = insert(root, val);
                 printf("%d inserted!\n", val);
                 break;
 
             case 2:
-                printf("BST Content(s): ");
+                printf("BST Contents (in-order): ");
                 inOrder(root);
                 printf("\n");
                 break;
 
             case 3:
+                printf("BST Contents (pre-order): ");
+                preOrder(root);
+                printf("\n");
+                break;
+
+            case 4:
+                printf("BST Contents (post-order): ");
+                postOrder(root);
+                printf("\n");
+                break;
+
+            case 5:
                 printf("Enter value to search: ");
                 scanf("%d", &val);
                 int isFound = search(root, val);
@@ -134,11 +153,11 @@ int main(void) {
                 else printf("Not found!\n");
                 break;
             
-            case 4:
+            case 6:
                 printf("Height of Binary Search Tree: %d levels\n", height(root));
                 break;
 
-            case 5:
+            case 7:
                 printf("Enter value to delete: ");
                 scanf("%d", &val);
                 if (search(root, val)) {
@@ -149,7 +168,7 @@ int main(void) {
                 }
                 break;
 
-            case 6:
+            case 8:
                 printf("Freeing tree nodes and exiting program...\n");
                 printf("----------------------------------------------\n");
                 freeTree(root);
@@ -157,6 +176,7 @@ int main(void) {
                 break;
 
             default:
+                printf("Enter value to search: ");
                 printf("Invalid choice, please choose between 1-6!\n");
         }
     } while (choice != 6);

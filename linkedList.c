@@ -65,6 +65,7 @@ Node* createList() {
             // node attaches to the end and tail gets updated
             tail->next = newNode;
             tail = tail->next;
+            tail->next = NULL;
         }
     }
 
