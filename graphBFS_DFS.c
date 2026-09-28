@@ -125,7 +125,7 @@ int main(void) {
 
     int graph[MAX_NODES][MAX_NODES] = {0};
     printf("---------------------------------------\n");
-    printf("Breadth-First Search Implementation:\n");
+    printf("Breadth-First and Depth-First Search Implementation:\n");
 
     while (1) {
         printf("---------------------------------------\n");
