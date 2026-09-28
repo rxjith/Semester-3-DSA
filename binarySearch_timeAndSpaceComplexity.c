@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int spaceComplexityCounter = 0; 
+int spaceComplexityCounter = 0, BSspaceComplexityCounter = 0;
 
 #define MAX 10
 int arr[MAX] = {0}, n = 0;
-int timeComplexityCounter = 0;
+int timeComplexityCounter = 0, BStimeComplexityCounter = 0;
 
 
 void initArray(void) {
@@ -51,11 +51,11 @@ void bubbleSort(void) {
 int binarySearch(int target, int low, int high) {
     if (low > high) {
         return -1;
-    } timeComplexityCounter += (1);
+    } timeComplexityCounter += (1); BSspaceComplexityCounter += (1);
 
-    int mid = low + (high - low) / 2; timeComplexityCounter += (1); spaceComplexityCounter += (1 * 4);
+    int mid = low + (high - low) / 2; timeComplexityCounter += (1); spaceComplexityCounter += (1 * 4); BStimeComplexityCounter += (1); BSspaceComplexityCounter += (1 * 4);
     
-    timeComplexityCounter += (1);
+    timeComplexityCounter += (1); BStimeComplexityCounter += (1);
     if (target == arr[mid]) {
         return mid;
 
@@ -100,12 +100,12 @@ int main(void) {
                 initArray();
                 timeComplexityCounter += (1);
                 spaceComplexityCounter += (1);
+                printf("----------------------------------------\n");
+                bubbleSort(); timeComplexityCounter += (1); spaceComplexityCounter += (1);
                 break;
             case 2:
                 timeComplexityCounter += (1);
-                if (n != 0) {
-                    bubbleSort(); timeComplexityCounter += (1); spaceComplexityCounter += (1);
-                    printf("----------------------------------------\n");
+                if (n != 0) {                    
                     printf("Enter target to search for: ");
                     scanf("%d", &target); timeComplexityCounter += (1); spaceComplexityCounter += (1 * 4);
                     printf("----------------------------------------\n");
@@ -126,6 +126,10 @@ int main(void) {
                 printf("----------------------------------------\n");
                 printf("Time Complexity (in units): %d\n", timeComplexityCounter);
                 printf("Space Complexity (in bytes): %d\n", spaceComplexityCounter);
+                printf("----------------------------------------\n");
+                printf("Binary Search Time Complexity (in units): %d\n", BStimeComplexityCounter);
+                printf("Binary Search Space Complexity (in bytes): %d\n", BSspaceComplexityCounter);
+                printf("----------------------------------------\n");
                 exit(0);
             default:
                 printf("Invalid choice, please enter a choice from 1-3 only!\n");
