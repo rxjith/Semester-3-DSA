@@ -49,9 +49,10 @@ void bubbleSort(void) {
 }
 
 int binarySearch(int target, int low, int high) {
+    timeComplexityCounter += (1); BStimeComplexityCounter += (1);
     if (low > high) {
         return -1;
-    } timeComplexityCounter += (1); BSspaceComplexityCounter += (1);
+    } 
 
     int mid = low + (high - low) / 2; timeComplexityCounter += (1); spaceComplexityCounter += (1 * 4); BStimeComplexityCounter += (1); BSspaceComplexityCounter += (1 * 4);
     
