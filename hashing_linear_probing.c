@@ -5,7 +5,7 @@
 
 #define MAX 10 // table size
 
-int hashTable[MAX] = {0};
+int hashTable[MAX] = {-1};
 
 int hashedEntries = 0;
 
@@ -19,7 +19,7 @@ void linearProbe(int key, int index) {
         return;
     }
 
-    if (hashTable[index] == 0) {
+    if (hashTable[index] == -1) {
         hashTable[index] = key;
         hashedEntries++;
         printf("%d hashed successfully!\n", key);
@@ -36,7 +36,7 @@ void displayHashTable(void) {
     }
 
     for (int i = 0; i < MAX; i++) {
-        if (hashTable[i] != 0) {
+        if (hashTable[i] != -1) {
             printf("%d: %d\n", i, hashTable[i]);    
         } else {
             printf("%d: [NULL]\n", i);
