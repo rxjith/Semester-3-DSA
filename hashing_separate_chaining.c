@@ -39,14 +39,13 @@ void openHasher(int key) {
     if (hashTable[index] == NULL) {
         hashTable[index] = createNode(key);
         return;
+    } else {
+        Node* temp = hashTable[index];
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = createNode(key);
     }
-
-    Node* temp = hashTable[index];
-    while (temp->next != NULL) {
-        temp = temp->next;
-    }
-
-    temp->next = createNode(key);
     printf("%d hashed successfully!\n", key);
 }
 
