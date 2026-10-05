@@ -5,7 +5,7 @@
 
 #define MAX 10 // table size
 
-int hashTable[MAX] = {-1};
+int hashTable[MAX];
 
 int hashedEntries = 0;
 
@@ -37,7 +37,7 @@ void displayHashTable(void) {
 
     for (int i = 0; i < MAX; i++) {
         if (hashTable[i] != -1) {
-            printf("%d: %d\n", i, hashTable[i]);    
+            printf("%d: %d\n", i, hashTable[i]);
         } else {
             printf("%d: [NULL]\n", i);
         }
@@ -46,8 +46,14 @@ void displayHashTable(void) {
 
 int main(void) {
     int choice, key;
+
+    // Initialize hash table to -1
+    for (int i = 0; i < MAX; i++) {
+        hashTable[i] = -1;
+    }
+
     printf("Linear Probing Simulator:\n");
-    while (1) {    
+    while (1) {
         printf("--------------------------\n");
         printf("1. Enter an element into hash table\n");
         printf("2. Display hash table\n");
@@ -62,6 +68,10 @@ int main(void) {
             case 1:
                 printf("Enter key: ");
                 scanf("%d", &key);
+                if (key < 0) {
+                    printf("Invalid key!\n");
+                    break;
+                }
                 linearProbe(key, key % MAX);
                 break;
 
@@ -69,16 +79,16 @@ int main(void) {
                 printf("Hash Table Contents:\n");
                 displayHashTable();
                 break;
-            
+
             case 3:
                 printf("Load Factor: %.2f\n", hashedEntries / (float) MAX);
                 break;
-        
+
             case 4:
                 printf("Exiting program...\n");
                 printf("--------------------------\n");
                 exit(0);
-            
+
             default:
                 printf("Invalid entry, please pick from (1-4)!\n");
         }
