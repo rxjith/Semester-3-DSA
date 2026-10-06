@@ -152,7 +152,7 @@ int main(void) {
                 if (isFound) printf("Found!\n");
                 else printf("Not found!\n");
                 break;
-            
+
             case 6:
                 printf("Height of Binary Search Tree: %d levels\n", height(root));
                 break;
@@ -176,7 +176,6 @@ int main(void) {
                 break;
 
             default:
-                printf("Enter value to search: ");
                 printf("Invalid choice, please choose between 1-6!\n");
         }
     } while (choice != 6);

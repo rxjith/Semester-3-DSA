@@ -23,11 +23,11 @@ void infixToPostfix(char infix[], char postfix[]);
 int evaluate(char postfix[]);
 
 int main(void) {
-    
+
 	char infix[100], postfix[100];
-	
+
 	int choice;
-	
+
 	printf("Infix to Postfix Converter + Postfix Evaluator:\n");
 	while (true) {
 		printf("------------------------------------------------\n");
@@ -44,7 +44,7 @@ int main(void) {
 			case 1:
 				readInfix(infix);
 				break;
-			case 2: 
+			case 2:
 				infixToPostfix(infix, postfix);
 				break;
 			case 3:
@@ -96,7 +96,7 @@ int precedence(char op) {
 		default: return 0;
 	}
 }
-			
+
 // Read Infix Expression:
 void readInfix(char infix[]) {
 	printf("Enter infix expression: ");
@@ -107,63 +107,63 @@ void readInfix(char infix[]) {
 void infixToPostfix(char infix[], char postfix[]) {
 	int i = 0, j = 0;
 	char ch;
-	
+
 	while ((ch = infix[i]) != '\0') {
 		if (isalnum(ch)) {
 			postfix[j++] = ch;
 		}
-		
+
 		else if (ch == '(') {
 			push(ch);
 		}
-		
+
 		else if (ch == ')') {
 			while (!isEmpty() && peek() != '(') {
 				postfix[j++] = pop();
 			} pop();
 		}
-		
+
 		else {
-			while (!isEmpty() && 
-				((precedence(peek()) > precedence(ch)) 
+			while (!isEmpty() &&
+				((precedence(peek()) > precedence(ch))
 				|| (precedence(peek()) == precedence(ch) && ch != '^')) && peek() != '(') {
 				postfix[j++] = pop();
 			} push(ch);
 		}
-		
+
 		i++;
 	}
-	
+
 	while (!isEmpty()) {
 		postfix[j++] = pop();
 	} postfix[j] = '\0';
-	
+
 	printf("Expression converted successfully!\n");
 }
 
 int evaluate(char postfix[]) {
 	int values[26] = {0};
 	int entered[26] = {0};
-	
+
 	int i = 0;
-	
+
 	while (postfix[i] != '\0') {
 		if (isalpha(postfix[i])) {
 			int index = toupper(postfix[i]) - 'A';
-			
+
 			if (!entered[index]) {
 				printf("Enter value of %c: ", postfix[i]);
 				scanf("%d", &values[index]);
 				entered[index] = 1;
 			}
-			
+
 			push(values[index]);
 		}
-		
+
 		else {
 			int b = pop();
 			int a = pop();
-			
+
 			switch (postfix[i]) {
 				case '+':
 					push(a+b);
