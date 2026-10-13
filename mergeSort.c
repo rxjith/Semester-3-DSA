@@ -16,16 +16,16 @@ void read(int n) {
     printf("%d elements inserted into array!\n", n);
 }
 
-void merge(int l, int m, int r) {
-    int n1 = m - l + 1;
-    int n2 = r - m;
+void merge(int start, int mid, int end) {
+    int n1 = mid - start + 1;
+    int n2 = end - mid;
 
     int L[n1], R[n2];
 
-    for (int i = 0; i < n1; i++) L[i] = arr[l + i];
-    for (int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
+    for (int i = 0; i < n1; i++) L[i] = arr[start + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
 
-    int i = 0, j = 0, k = l;
+    int i = 0, j = 0, k = start;
     while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
             arr[k] = L[i++];
@@ -39,12 +39,12 @@ void merge(int l, int m, int r) {
     while (j < n2) arr[k++] = R[j++];
 }
 
-void mergeSort(int l, int r) {
-    if (l < r) {
-        int m = l + (r - l) / 2;
-        mergeSort(l, m);
-        mergeSort(m + 1, r);
-        merge(l, m, r);
+void mergeSort(int start, int end) {
+    if (start < end) {
+        int mid = start + (end - start) / 2;
+        mergeSort(start, mid);
+        mergeSort(mid + 1, end);
+        merge(start, mid, end);
     }
 }
 
