@@ -23,7 +23,7 @@ int partition(int p, int r) {
     for (int j = p; j < r;j++) {
         if (arr[j] <= x) {
             i++;
-            int temp = arr[i];
+            int temp = arr[i];;
             arr[i] = arr[j];
             arr[j] = temp;
         }
