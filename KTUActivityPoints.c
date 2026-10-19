@@ -58,8 +58,8 @@ int calculateMax(void) {
     printf("-------------------------------\n");
     printf("Activities you can attend:\n");
     printf("-------------------------------\n");
+    int count = 1;
     for (int i = MAX - 1; i >= MAX - maxActivities; i--) {
-        int count = 1;
         printf("Activity %d: %d pts\n", count++, arr[i]);
         sum += arr[i];
     }
