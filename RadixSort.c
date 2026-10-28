@@ -1,3 +1,7 @@
+// Uses a more intuitive bucket-sort-esque sorting technique using the given array and
+// a array of "buckets" which is just an array of Singly Linked Lists which can be
+// accessed using the FIFO principle to produce the intermediate/final sorted arrays.
+
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX 8
